@@ -20,6 +20,7 @@ Route::get('/', function () {
 //AUTH
 Auth::routes();
  //test
+ //sadasd
 //PROFILE
 Route::get('/profile/{user}', [App\Http\Controllers\ProfilesController::class, 'index'])->name('profile.index');
 Route::get('/profile/{user}/edit', [App\Http\Controllers\ProfilesController::class, 'edit'])->name('profile.edit');
