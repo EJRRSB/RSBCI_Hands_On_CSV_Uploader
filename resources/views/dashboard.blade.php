@@ -109,5 +109,4 @@
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
-<script src="{{asset('js/dashboard.js')}}"></script>
- 
+<script src="{{asset('js/dashboard.js')}}"></script> 

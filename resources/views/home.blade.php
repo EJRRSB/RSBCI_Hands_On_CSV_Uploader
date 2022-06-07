@@ -26,7 +26,7 @@
                         </div>
                         <div class="mb-3">
                             <label for="ErrorLog" class="form-label">Error log</label>
-                            <textarea class="form-control" id="ErrorLog" name ="ErrorLog" rows="5"></textarea>
+                            <textarea class="form-control" id="ErrorLog" name ="ErrorLog" rows="5" style="color:red;"></textarea>
                         </div> 
                         <div class="col-md-8 mt-3">  
                             <button type="submit" class="btn btn-primary" id="BtnSave">Save</button>   
