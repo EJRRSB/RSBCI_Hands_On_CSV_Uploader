@@ -6,6 +6,10 @@
     #sampletable_length{
         float: left;
     }
+    .id{
+        display:none;
+    }
+
   
 </style>
 @section('content')
@@ -22,11 +26,11 @@
                         @csrf
                         <div class="mb-3">
                             <label for="csv_file" class="form-label">Select a Csv File</label>
-                            <input type="file" class="form-control" id="csv_file" name ="csv_file" >
+                            <input type="file" class="form-control" id="csv_file" name ="csv_file" required>
                         </div>
                         <div class="mb-3">
                             <label for="ErrorLog" class="form-label">Error log</label>
-                            <textarea class="form-control" id="ErrorLog" name ="ErrorLog" rows="5" style="color:red;"></textarea>
+                            <textarea class="form-control" id="ErrorLog" name ="ErrorLog" rows="7" style="color:red;"></textarea>
                         </div> 
                         <div class="col-md-8 mt-3">  
                             <button type="submit" class="btn btn-primary" id="BtnSave">Save</button>   
@@ -37,7 +41,7 @@
             </div>
         </div>
     </div>
-<!-- //adsadsa -->
+    
     <br>
 
     <div class="row justify-content-center">  
@@ -69,7 +73,7 @@
                         </select>
                     </div>
                     
-                    <table id="sampletable" class="table"  >
+                    <table id="sampletable" class="table table-striped  " >
                         <thead>
                             <tr>
                             <th scope="col">ID</th>

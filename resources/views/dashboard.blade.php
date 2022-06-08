@@ -19,38 +19,35 @@
         <div class="col-md-4"> 
              
              <div class="card shadow bg-white rounded">
-                 <div class="card-header"style="color:red;">Person with the most entries</div>
-                 <div class="card-body mb-3">
-                     <span class="medium text-danger stretched-link" id="person_count" >{{ $person->recipient }} - {{$person->count}}</span>                       
+                 <div class="card-header"style="color:#00008B;"><strong>Person with the most entries</strong></div>
+                 <div class="card-body mb-3"> 
+                     <span class="medium stretched-link" id="person_count" >-</span>                       
                  </div>
              </div> 
-        </div>
+        </div>  
         <div class="col-md-4"> 
              <div class="card shadow bg-white rounded">
-                 <div class="card-header"style="color:red;">Country with the most entries</div>
-                 <div class="card-body mb-3">
-                     <span class="medium text-danger stretched-link" id="country_count" >{{ $country->country }} - {{$country->count}}</span>                       
-                 </div>
-             </div> 
-        </div>
-             
-        <div class="col-md-4"> 
-             <div class="card shadow bg-white rounded">
-                 <div class="card-header"style="color:red;">Career with the most entries</div>
-                 <div class="card-body mb-3">
-                     <span class="medium text-danger stretched-link" id="career_count" >{{ $career->career }} - {{$career->count}}</span>                       
+                 <div class="card-header"style="color:#00008B;"><strong>Country with the most entries</strong></div>
+                 <div class="card-body mb-3"> 
+                     <span class="medium stretched-link" id="country_count" >-</span>                      
                  </div>
              </div>  
- 
- 
-         </div>
+        </div>
+        <div class="col-md-4"> 
+             <div class="card shadow bg-white rounded">
+                 <div class="card-header"style="color:#00008B;"><strong>Career with the most entries</strong></div>
+                 <div class="card-body mb-3"> 
+                     <span class="medium stretched-link" id="career_count" >-</span>                      
+                 </div>
+             </div>  
+        </div>
     </div>
     <div class="row justify-content-center mb-4 h-20" >
         
         <div class="col-md-6 h-20" > 
              
             <div class="card shadow bg-white rounded">
-                <div class="card-header"style="color:red;">Top 3 People in Forbes</div>
+                <div class="card-header"style="color:#00008B;"><strong>Top 3 People in Forbes</strong></div>
                 <div class="card-body mb-3">
                     <div>
                         <canvas id="myChart" style="Height:50px;"></canvas> 
@@ -64,7 +61,7 @@
         <div class="col-md-6 h-20"> 
              
             <div class="card shadow bg-white rounded">
-                <div class="card-header"style="color:red;">Top 3 Countries in Forbes</div>
+                <div class="card-header"style="color:#00008B;"><strong>Top 3 Countries in Forbes</strong></div>
                 <div class="card-body mb-3">
                     <div>
                         <canvas id="myChart2" style="Height:50px;"></canvas> 
@@ -83,7 +80,7 @@
         <div class="col-md-6" > 
              
             <div class="card shadow bg-white rounded">
-                <div class="card-header"style="color:red;">Top 3 Careers in Forbes</div>
+                <div class="card-header"style="color:#00008B;"><strong>Top 3 Careers in Forbes</strong></div>
                 <div class="card-body mb-3 ">
                     <div>
                         <canvas id="CareerChart"  ></canvas> 

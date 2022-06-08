@@ -24,7 +24,7 @@ $(document).ready(function(){
                 }
             },
             columns:[
-                {"data":'id'},
+                {"data":'id','className':'id'},
                 {"data":'year'},
                 {"data":'rank'},
                 {"data":'recipient'},

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 // WELCOME
 Route::get('/', function () {
     return view('welcome');
-});
+}); 
  
 
 //AUTH
@@ -37,6 +37,11 @@ Route::get('/post/{post}', [App\Http\Controllers\PostsController::class,'show'])
 // NAV
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 Route::get('/dashboard', [App\Http\Controllers\Dashboard::class, 'index'])->name('dashboard');
+//DATA CHARTS
+Route::get('/dashboard/getCountsData', [App\Http\Controllers\Dashboard::class, 'getCountsData'])->name('getCountsData');
+Route::get('/dashboard/getChartData', [App\Http\Controllers\Dashboard::class, 'getChartData'])->name('getChartData');
+
+
 
 
 //DATA TABLE 

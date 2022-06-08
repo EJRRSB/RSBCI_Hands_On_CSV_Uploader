@@ -119,6 +119,7 @@ class ForbesController extends Controller
         foreach($data as $row){
 
             if($counter > 0){
+                
                 $for_validation = array(
                     'user_id' => auth()->user()->id,
                     'year' => $row[0],
@@ -155,7 +156,7 @@ class ForbesController extends Controller
         }    
 
 
-        ForbesTop::truncate(); 
+        ForbesTop::truncate();   
         $insert = ForbesTop::insert($for_insert);
 
         if($insert){

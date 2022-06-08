@@ -23,9 +23,9 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light bg-white shadow-sm">
             <div class="container">
-                <a class="navbar-brand d-flex" href="{{ url('/') }}">
+                <a class="navbar-brand d-flex" href="{{ url('/home') }}">
                     <!-- {{ config('app.name', 'Laravel') }} -->
-                    <div><img src = "/img/gilas.jpg" style = "height: 25px; border-right:1px; solid #333" class="rounded-circle pr-3"> </div>
+                    <div><img src = "/img/logo.png" style = "height: 25px; border-right:1px; solid #333" class="rounded-circle pr-3"> </div>
                     <div class = "pl-2"> Forbes top 10</div>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
