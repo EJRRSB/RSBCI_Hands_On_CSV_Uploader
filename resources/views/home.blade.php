@@ -42,12 +42,54 @@
         </div>
     </div>
     
+    <div class="row justify-content-center" id ="report_form" style ="display:none;">
+        <div class="col-md-4"> 
+            <div class="card shadow bg-white rounded">
+                <div class="card-header">CSV Report Form</div>
+
+                <div class="card-body">                          
+                    <form method="POST" id="report_form_csv">
+                        @csrf
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">                            
+                                <div class="mb-3">
+                                    <label for="date_report" class="form-label">Select Year Range</label>
+                                    <!-- <input type="month" class="form-control" id="date_report" name ="date_report" required> -->
+                                    <select class="form-control" id="date_report" name ="date_report" required>
+                                        <!-- <option selected disabled>Select Year</option> -->
+                                        <!-- <?php foreach($years as $year) : ?> -->
+                                            <!-- <option value="{{ $year->year}}" >{{ $year->year}}</option> -->
+                                        <!-- <?php endforeach; ?> -->
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="limit_report" class="form-label">Report limit</label>
+                                    <input type="number" class="form-control" id="limit_report" name ="limit_report" required>
+                                </div> 
+                            </div>
+                        </div>
+                        <div class="col-md-8 mt-3">  
+                            <button type="submit" class="btn btn-primary" id="BtnSaveReport">Download</button>   
+                            <button class="btn btn-success" id="BtnCloseReport">Close</button>   
+                        </div> 
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+
     <br>
 
     <div class="row justify-content-center">  
         <div class="col-md-9">  
             <hr>        
-            <button class="btn btn-primary" id="btnShowUploadForm" style ="float:right;">Upload CSV File</button>   
+            <button class="btn btn-primary mr-3" id="btnShowUploadForm" style ="float:right;">Upload CSV File</button>   
+            <button class="btn btn-success mr-3" id="btnDownloadCsv" style ="float:right;">Download CSV File</button>  
         </div>
     </div>
 
@@ -110,4 +152,10 @@
 <!-- <script src="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"></script> -->
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
+
+
+<!-- DATE RANGE -->
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script> 
+
+
 <script src="{{asset('js/sample.js')}}"></script>

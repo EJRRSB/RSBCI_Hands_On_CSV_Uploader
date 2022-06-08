@@ -26,6 +26,8 @@ class Dashboard extends Controller
 
     
 
+    
+
     public function getCountsData()
     {
         $person = ForbesTop::select('recipient',DB::raw('count(*) as count'))->groupBy('recipient')->orderBy('count','desc')->limit('1')->first();

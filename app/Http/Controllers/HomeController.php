@@ -31,6 +31,8 @@ class HomeController extends Controller
         // return view('home',[
         //     'userInfo' => $userInfo
         // ]);
+
+         
         return view('home');
     }
 

@@ -1,5 +1,10 @@
 $(document).ready(function(){ 
  
+    // $('input[name="date_report"]').daterangepicker({ format: 'yyyy' }); 
+  
+
+
+
  
     DatatableForbes();
 
@@ -26,12 +31,12 @@ $(document).ready(function(){
             columns:[
                 {"data":'id','className':'id'},
                 {"data":'year'},
-                {"data":'rank'},
-                {"data":'recipient'},
-                {"data":'country'},
-                {"data":'career'},
-                {"data":'tied'},
-                {"data":'title'},
+                {"data":'rank', "orderable": false},
+                {"data":'recipient', "orderable": false},
+                {"data":'country', "orderable": false},
+                {"data":'career', "orderable": false},
+                {"data":'tied', "orderable": false},
+                {"data":'title', "orderable": false}    
             ],
             order: [
                 [0, 'asc']
@@ -51,6 +56,20 @@ $(document).ready(function(){
     $('#BtnClose').on('click', function(){ 
         $('#upload_form').hide();  
     });
+
+
+    
+    $('#btnDownloadCsv').on('click', function(){  
+        $('#date_report').val('');
+        $('#limit_report').val('0');
+        $('#report_form').show(); 
+    });
+
+
+    $('#BtnCloseReport').on('click', function(){ 
+        $('#report_form').hide();  
+    });
+ 
  
 
 
@@ -108,7 +127,7 @@ $(document).ready(function(){
             cache: false,
             beforeSend: function () { 
                 ErrorlogInput('Uploading csv.....');
-            }, 
+            },  
             success: function (dataResult) {
                 var dataResult = JSON.parse(dataResult); 
 

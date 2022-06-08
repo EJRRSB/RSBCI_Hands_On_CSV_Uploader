@@ -20,11 +20,14 @@ class ForbesController extends Controller
     }
 
 
+
+
     public function index()
-    {  
+    {    
         
         return view('home');
     }
+    
 
 
 
@@ -45,7 +48,7 @@ class ForbesController extends Controller
         $search_arr = $request->get('search');
  
   
-        $columnIndex = $columnIndex_arr[0]['column']; 
+        $columnIndex = $columnIndex_arr[0]['column'];  
         // $columnName = $columnIndex_arr[$columnIndex]['data']; 
         $columnSortOrder = $order_arr[0]['dir']; 
         $searchValue = $search_arr['value']; 
@@ -60,7 +63,7 @@ class ForbesController extends Controller
         // Total records with search
         $records = ForbesTop::select('forbes_tops.*')
                             ->where($search_field,'like','%' . $searchValue . '%')
-                            ->orderBy('id',$columnSortOrder)
+                            ->orderBy('year',$columnSortOrder)
                             ->skip($start)
                             ->take($rowpage)
                             ->get(); 
@@ -106,21 +109,21 @@ class ForbesController extends Controller
     {  
         
 
-        if(empty(request()->file('csv_file'))){
+        if(empty(request()->file('csv_file'))){ // check file if empty
             $this->Json_return(201, 'Csv file is required.');
             die;
         } 
 
-        $path = file(request()->file('csv_file')->getRealPath());
+        $path = file(request()->file('csv_file')->getRealPath()); // get file and data
         $data = array_map('str_getcsv', $path); 
                   
 
-        $counter = 0;
-        foreach($data as $row){
+        ForbesTop::truncate(); //truncate table
+        $counter = 0; //set counter
+        foreach($data as $row){ // read csv
 
             if($counter > 0){
-                
-                $for_validation = array(
+                $for_validation = array( 
                     'user_id' => auth()->user()->id,
                     'year' => $row[0],
                     'rank' => $row[1],
@@ -140,35 +143,33 @@ class ForbesController extends Controller
                     'tied' => 'required|numeric',
                     'title' => 'required',
                 ]);
-
+ 
+ 
 
                 if ($validated->fails()) {  
-                    $this->Json_return(202, $validated->errors()->add('line', 'Error line number: ' .$counter + 1));
+                    $this->Json_return(202, $validated->errors()->add('line', 'Error line number: ' .$counter + 1 . '. [' . $counter . ' out of ' . count($data). ' data have been inserted]')); // return validation error
                     die;
-                }else{ 
-                    $for_insert[] = $for_validation; 
+                }else{  
+
+                    $insert = ForbesTop::insert($for_validation); // insert data
+                    if(!$insert){
+                        $this->Json_return(201, $counter . ' inserted data out of ' . count($data));  // return query error
+                        die;
+                    }
                 }
             }
 
-            $counter ++;
-                
-                
+            $counter ++; 
+
         }    
 
-
-        ForbesTop::truncate();   
-        $insert = ForbesTop::insert($for_insert);
-
-        if($insert){
-            $this->Json_return(200, 'Data successfully added!'); 
-        }else{
-            $this->Json_return(201, 'An error occured, please try again.'); 
-        }
+ 
+        $this->Json_return(200, 'Data successfully added!'); // return success 
 
   
     }
 
-//sadsada
+    
 
     public function Json_return($status, $message)
     {
@@ -179,4 +180,30 @@ class ForbesController extends Controller
     }
 
 
+
+
+
+    public function getAvailableDates()
+    { 
+        $years = ForbesTop::select('year')->groupBy('year')->orderBy('year','desc')->get();
+        $this->Json_return(200, $years);
+    }
+
+
+
+
+    public function getReports()
+    {
+        
+        // $data = request()->validate([
+        //     'caption' => 'required',
+        //     'image' => ['required','image'] 
+        // ]);
+        
+        $reportData = auth()->user()->forbesTop()->get();
+        
+        $this->Json_return(200, $reportData);
+    }
+
+ 
 }  

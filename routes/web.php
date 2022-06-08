@@ -50,3 +50,8 @@ Route::get('/forbes/getForbesData', [App\Http\Controllers\ForbesController::clas
 
 // AJAX UPLOAD CSV
 Route::post('/forbes', [App\Http\Controllers\ForbesController::class,'store']);
+
+
+// REPORT CSV
+Route::get('/getAvailableDates', [App\Http\Controllers\ForbesController::class,'getAvailableDates']);
+Route::get('/csv_report', [App\Http\Controllers\ForbesController::class,'getReports']);
