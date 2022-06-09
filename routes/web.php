@@ -59,3 +59,7 @@ Route::post('/csv_report', [App\Http\Controllers\ForbesController::class,'getDow
 // GENERATE CSV
 Route::get('/getMaxData', [App\Http\Controllers\ForbesController::class,'getMaxData']);
 Route::post('/generateCsvLimit', [App\Http\Controllers\ForbesController::class,'generateCsvLimit']);
+
+
+// CREATE CSV DATA SAMPLE
+Route::get('/create_csv', [App\Http\Controllers\CsvController::class,'create_csv']);
