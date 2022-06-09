@@ -13,6 +13,7 @@
   
 </style>
 @section('content')
+<meta name="csrf-token" id="csrf-token" content="{{ csrf_token() }}"/>
 <div class="container">
 
 
@@ -33,8 +34,8 @@
                             <textarea class="form-control" id="ErrorLog" name ="ErrorLog" rows="7" style="color:red;"></textarea>
                         </div> 
                         <div class="col-md-8 mt-3">  
-                            <button type="submit" class="btn btn-primary" id="BtnSave">Save</button>   
-                            <button class="btn btn-success" id="BtnClose">Close</button>   
+                            <button type="submit" class="btn btn-primary" id="BtnSave">Upload</button>  
+                            <a href="javascript:;" class="btn btn-success" id="BtnClose"> Close</a> 
                         </div> 
                     </form> 
                 </div>
@@ -51,31 +52,53 @@
                     <form method="POST" id="report_form_csv">
                         @csrf
                         <div class="row justify-content-center">
-                            <div class="col-md-12">                            
+                            <div class="col-md-6">                            
                                 <div class="mb-3">
-                                    <label for="date_report" class="form-label">Select Year Range</label>
-                                    <!-- <input type="month" class="form-control" id="date_report" name ="date_report" required> -->
-                                    <select class="form-control" id="date_report" name ="date_report" required>
-                                        <!-- <option selected disabled>Select Year</option> -->
-                                        <!-- <?php foreach($years as $year) : ?> -->
-                                            <!-- <option value="{{ $year->year}}" >{{ $year->year}}</option> -->
-                                        <!-- <?php endforeach; ?> -->
-                                    </select>
+                                    <label for="date_report1" class="form-label">Select From Year</label> 
+                                    <select class="form-control" id="date_report1" name ="date_report1" required>                                   
+                                    </select> 
+                                </div>
+                            </div>
+                            <div class="col-md-6">                            
+                                <div class="mb-3">
+                                    <label for="date_report2" class="form-label">Select To Year</label> 
+                                    <select class="form-control" id="date_report2" name ="date_report2" required>                                   
+                                    </select> 
                                 </div>
                             </div>
                         </div>
-                        
-                        <div class="row justify-content-center">
-                            <div class="col-md-12">
-                                <div class="mb-3">
-                                    <label for="limit_report" class="form-label">Report limit</label>
-                                    <input type="number" class="form-control" id="limit_report" name ="limit_report" required>
-                                </div> 
-                            </div>
-                        </div>
+                         
                         <div class="col-md-8 mt-3">  
-                            <button type="submit" class="btn btn-primary" id="BtnSaveReport">Download</button>   
-                            <button class="btn btn-success" id="BtnCloseReport">Close</button>   
+                            <button type="submit" class="btn btn-primary" id="BtnSaveReport">Export</button>   
+                            <a href="javascript:;" class="btn btn-success" id="BtnCloseReport"> Close</a> 
+                        </div> 
+                    </form> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row justify-content-center" id ="generate_csv_form" style ="display:none;">
+        <div class="col-md-4"> 
+            <div class="card shadow bg-white rounded">
+                <div class="card-header">CSV Report Form</div>
+
+                <div class="card-body">                          
+                    <form method="POST" id="generate_form_csv">
+                        @csrf
+                        <div class="row justify-content-center">
+                            <div class="col-md-12">                            
+                                <div class="mb-3">
+                                    <label for="report_limit" class="form-label">Input Report Limit</label>   
+                                    <input type="number" min="1" max="999" class="form-control" id="report_limit" name ="report_limit" required> 
+                                </div>
+                            </div> 
+                        </div>
+                         
+                        <div class="col-md-8 mt-3">  
+                            <button type="submit" class="btn btn-primary" id="BtnGenerateReport">Generate</button>    
+                            <a href="javascript:;" class="btn btn-success" id="BtnCloseGenerateReport"> Close</a>
                         </div> 
                     </form> 
                 </div>
@@ -88,10 +111,15 @@
     <div class="row justify-content-center">  
         <div class="col-md-9">  
             <hr>        
-            <button class="btn btn-primary mr-3" id="btnShowUploadForm" style ="float:right;">Upload CSV File</button>   
-            <button class="btn btn-success mr-3" id="btnDownloadCsv" style ="float:right;">Download CSV File</button>  
+            <button class="btn btn-primary ml-4" id="btnShowUploadForm" style ="float:right;">Import CSV File</button>  
+            <p style="float:right; color: white;"> | </p> 
+            <button class="btn btn-success ml-4" id="btnDownloadCsv" style ="float:right;">Export CSV File</button>  
+            <p style="float:right; color: white;""> | </p> 
+            <button class="btn btn-success mr-3" id="btnGenerateCsv" style ="float:right;">Gegenrate CSV File</button>   
         </div>
     </div>
+
+     
 
     <br>
     <div class="row justify-content-center">
@@ -115,7 +143,7 @@
                         </select>
                     </div>
                     
-                    <table id="sampletable" class="table table-striped  " >
+                    <table id="sampletable" class="table table-hover table-responsive table-sm" >
                         <thead>
                             <tr>
                             <th scope="col">ID</th>
@@ -140,6 +168,19 @@
 
     </div>
 </div>
+
+
+<div class="modal" id="processing_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered " role="document">
+    <div class="modal-content"> 
+        <div class="modal-body"> 
+        <center>
+        <h5 style="color: red" id="processing_text">PROCESSING.</h5>
+        </center>
+        </div> 
+    </div>
+    </div>
+</div>
 @endsection
 
 <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css"> -->
@@ -153,7 +194,7 @@
 <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
 <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css">
 
-
+ 
 <!-- DATE RANGE -->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script> 
 

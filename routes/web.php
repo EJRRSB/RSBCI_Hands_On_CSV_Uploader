@@ -48,10 +48,14 @@ Route::get('/dashboard/getChartData', [App\Http\Controllers\Dashboard::class, 'g
 Route::get('/forbes/getForbesData', [App\Http\Controllers\ForbesController::class, 'getForbesData'])->name('getForbesData');
 
 
-// AJAX UPLOAD CSV
+// AJAX UPLOAD/IMPORT CSV
 Route::post('/forbes', [App\Http\Controllers\ForbesController::class,'store']);
 
 
-// REPORT CSV
-Route::get('/getAvailableDates', [App\Http\Controllers\ForbesController::class,'getAvailableDates']);
-Route::get('/csv_report', [App\Http\Controllers\ForbesController::class,'getReports']);
+// EXPORT CSV 
+Route::post('/getAvailableDates', [App\Http\Controllers\ForbesController::class,'getAvailableDates']);
+Route::post('/csv_report', [App\Http\Controllers\ForbesController::class,'getDownloadReports']);
+
+// GENERATE CSV
+Route::get('/getMaxData', [App\Http\Controllers\ForbesController::class,'getMaxData']);
+Route::post('/generateCsvLimit', [App\Http\Controllers\ForbesController::class,'generateCsvLimit']);

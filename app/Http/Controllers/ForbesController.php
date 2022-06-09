@@ -48,11 +48,19 @@ class ForbesController extends Controller
         $search_arr = $request->get('search');
  
   
-        $columnIndex = $columnIndex_arr[0]['column'];  
-        // $columnName = $columnIndex_arr[$columnIndex]['data']; 
+        $columnIndex = $columnIndex_arr[0]['column'];    
         $columnSortOrder = $order_arr[0]['dir']; 
         $searchValue = $search_arr['value']; 
-
+  
+        $sortColumns = array(
+            0 => 'id',
+            1 => 'year', 
+            2 => 'rank', 
+            3 => 'recipient',
+        ); 
+        
+       
+        $sortColumnName = $sortColumns[$order_arr[0]['column']];
         // Total record count
         $totalRecords = ForbesTop::select('count(*) as allcount')->count(); 
  
@@ -63,7 +71,7 @@ class ForbesController extends Controller
         // Total records with search
         $records = ForbesTop::select('forbes_tops.*')
                             ->where($search_field,'like','%' . $searchValue . '%')
-                            ->orderBy('year',$columnSortOrder)
+                            ->orderBy($sortColumnName,$columnSortOrder)
                             ->skip($start)
                             ->take($rowpage)
                             ->get(); 
@@ -184,26 +192,62 @@ class ForbesController extends Controller
 
 
     public function getAvailableDates()
-    { 
-        $years = ForbesTop::select('year')->groupBy('year')->orderBy('year','desc')->get();
+    {    
+        $years = ForbesTop::select('year')->where('year','>=', request()->year )->groupBy('year')->orderBy('year','asc')->get();
         $this->Json_return(200, $years);
     }
 
 
 
 
-    public function getReports()
-    {
-        
-        // $data = request()->validate([
-        //     'caption' => 'required',
-        //     'image' => ['required','image'] 
-        // ]);
-        
-        $reportData = auth()->user()->forbesTop()->get();
-        
-        $this->Json_return(200, $reportData);
+    public function getDownloadReports()
+    { 
+         
+ 
+        $validated = Validator::make(request()->all(), [
+            'date_report1' => 'required|numeric',
+            'date_report2' => 'required|numeric'
+        ]);
+
+        if ($validated->fails()) {  
+            $this->Json_return(202, $validated->errors()); // return validation error
+            die;
+        }else{
+
+            $reportData = auth()->user()->forbesTop()->whereBetween('year', [ request()->date_report1,  request()->date_report2])->get();
+            
+            $this->Json_return(200, $reportData);
+        }
+
     }
 
+
+
+    public function getMaxData()
+    { 
+        // $generatedData = auth()->user()->forbesTop()->limit('5')->get(); 
+        $generatedData = auth()->user()->forbesTop()->get();
+        if(count($generatedData) >= 100000){ $generatedData=100; }else{ $generatedData=count($generatedData); }
+
+        $this->Json_return(200, $generatedData);
+           
+    }
+
+
+    public function generateCsvLimit()
+    { 
+        $validated = Validator::make(request()->all(), [
+            'report_limit' => 'required|numeric', 
+        ]);
+
+
+        if ($validated->fails()) {  
+            $this->Json_return(202, $validated->errors()); // return validation error
+            die;
+        }else{ 
+            $generatedData = auth()->user()->forbesTop()->limit(request()->report_limit)->orderBy('year','desc')->get();  
+            $this->Json_return(200, $generatedData);
+        } 
+    }
  
 }  
