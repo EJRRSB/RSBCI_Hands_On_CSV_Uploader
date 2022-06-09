@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Response;
 use File;
+use Faker\Factory as Faker;
+use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class CsvController extends Controller
 {
@@ -18,6 +21,7 @@ class CsvController extends Controller
 
     public function create_csv()
     {
+        $faker = Faker::create();
         // these are the headers for the csv file. Not required but good to have one incase of system didn't recongize it properly
         $headers = array(
             'Content-Type' => 'text/csv'
@@ -31,7 +35,7 @@ class CsvController extends Controller
 
 
         //creating the download file
-        $filename =  public_path("files/download.csv");
+        $filename =  public_path("files/sample_created.csv");
         $handle = fopen($filename, 'w');
 
         //adding the first row
@@ -52,14 +56,16 @@ class CsvController extends Controller
         for ($i = 0; $i <= 10000; $i++)
         { 
             $counter++;
+            $name = $faker->name;
+ 
             fputcsv($handle, [
                 $year,
                 $counter, 
-                'Michael Jordan', 
-                'United States',
-                'Sportsperson (Basketball)', 
+                $name, 
+                $faker->country,
+                $faker->jobTitle, 
                 '0', 
-                'Michael_Jordan', 
+                $name, 
             ]);
             
             if($counter == 10){

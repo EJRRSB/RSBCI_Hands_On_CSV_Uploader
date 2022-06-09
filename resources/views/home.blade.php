@@ -91,7 +91,7 @@
                             <div class="col-md-12">                            
                                 <div class="mb-3">
                                     <label for="report_limit" class="form-label">Input Report Limit</label>   
-                                    <input type="number" min="1" max="999" class="form-control" id="report_limit" name ="report_limit" required> 
+                                    <input type="number" min="1" max="100000" class="form-control" id="report_limit" name ="report_limit" required> 
                                 </div>
                             </div> 
                         </div>

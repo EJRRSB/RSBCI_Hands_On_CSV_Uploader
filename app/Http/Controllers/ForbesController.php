@@ -127,7 +127,7 @@ class ForbesController extends Controller
                   
 
         ForbesTop::truncate(); //truncate table
-        $counter = 0; //set counter
+        $counter = 0; //set counter  
         foreach($data as $row){ // read csv
 
             if($counter > 0){
@@ -154,14 +154,13 @@ class ForbesController extends Controller
  
  
 
-                if ($validated->fails()) {  
-                    $this->Json_return(202, $validated->errors()->add('line', 'Error line number: ' .$counter + 1 . '. [' . $counter . ' out of ' . count($data). ' data have been inserted]')); // return validation error
-                    die;
+                if ($validated->fails()) { 
+                    $errors[] = $validated->errors()->add('line', 'Error line number: ' . $counter + 1); // collect errors
                 }else{  
 
                     $insert = ForbesTop::insert($for_validation); // insert data
                     if(!$insert){
-                        $this->Json_return(201, $counter . ' inserted data out of ' . count($data));  // return query error
+                        $this->Json_return(201, 'An error occured. Please try again.');  // return query error
                         die;
                     }
                 }
@@ -171,8 +170,11 @@ class ForbesController extends Controller
 
         }    
 
- 
-        $this->Json_return(200, 'Data successfully added!'); // return success 
+        if(!empty($errors)){ 
+            $this->Json_return(202, $errors);   
+        }else{
+            $this->Json_return(200, 'Data successfully added!'); // return success 
+        }
 
   
     }
@@ -191,11 +193,15 @@ class ForbesController extends Controller
 
 
 
+
     public function getAvailableDates()
     {    
         $years = ForbesTop::select('year')->where('year','>=', request()->year )->groupBy('year')->orderBy('year','asc')->get();
         $this->Json_return(200, $years);
     }
+
+
+
 
 
 
@@ -223,9 +229,14 @@ class ForbesController extends Controller
 
 
 
+
+
+
+
+
     public function getMaxData()
     { 
-        // $generatedData = auth()->user()->forbesTop()->limit('5')->get(); 
+        
         $generatedData = auth()->user()->forbesTop()->get();
         if(count($generatedData) >= 100000){ $generatedData=100; }else{ $generatedData=count($generatedData); }
 
@@ -234,10 +245,15 @@ class ForbesController extends Controller
     }
 
 
+
+
+
+
+
     public function generateCsvLimit()
     { 
         $validated = Validator::make(request()->all(), [
-            'report_limit' => 'required|numeric', 
+            'report_limit' => 'required|numeric|max:100000', 
         ]);
 
 

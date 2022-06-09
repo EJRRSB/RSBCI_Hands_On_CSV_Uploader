@@ -122,6 +122,7 @@ $(document).ready(function(){
             },   
             complete: function () {
                 $('#processing_modal').hide();
+                process_counter = 0;
             },
             success: function (dataResult) {
                 var dataResult = JSON.parse(dataResult); 
@@ -137,7 +138,9 @@ $(document).ready(function(){
                     ErrorlogInput(dataResult.message);
                 } else if (dataResult.statusCode == 202) {  
                     $.each(dataResult.message, function (index, val) {
-                        ErrorlogInput(val);     
+                        $.each(val, function (index, newval) {
+                            ErrorlogInput(newval);   
+                        });  
                     });
                 }
 
@@ -193,6 +196,7 @@ $(document).ready(function(){
             }, 
             complete: function () {
                 $('#processing_modal').hide();
+                process_counter = 0;
             },
             success: function (dataResult) {
                 var datass = JSON.parse(dataResult);
@@ -211,7 +215,7 @@ $(document).ready(function(){
 
     
     $('#date_report1').on('change', function () {    
-        getAvailableDates($(this).val(),'date_report2');
+        getAvailableDates($(this).val(),'date_report2'); 
     });
  
 
@@ -246,6 +250,7 @@ $(document).ready(function(){
             }, 
             complete: function () {
                 $('#processing_modal').hide();
+                process_counter = 0;
             }, 
             success: function (dataResult) {
                 var dataResult = JSON.parse(dataResult); 
@@ -288,6 +293,7 @@ $(document).ready(function(){
             },
             error: function (e) {
                 $('#processing_modal').hide();
+                process_counter = 0;
                 alert('An error occured, please try again.'); 
             }
         });
@@ -329,6 +335,7 @@ $(document).ready(function(){
             }, 
             complete: function () {
                 $('#processing_modal').hide();
+                process_counter = 0;
             },
             success: function (dataResult) {
                 var datass = JSON.parse(dataResult); 
@@ -357,6 +364,7 @@ $(document).ready(function(){
             }, 
             complete: function () {
                 $('#processing_modal').hide();
+                process_counter = 0;
             }, 
             success: function (dataResult) {
                 var dataResult = JSON.parse(dataResult); 
@@ -399,6 +407,7 @@ $(document).ready(function(){
             },
             error: function (e) {
                 $('#processing_modal').hide();
+                process_counter = 0;
                 alert('An error occured, please try again.'); 
             }
         });
@@ -410,20 +419,24 @@ $(document).ready(function(){
 
 
  
-
+    process_counter = 0;
     setInterval(function() { // TIMER 
-        if($('#processing_text').text() == 'PROCESSING.'){
-            $('#processing_text').text('PROCESSING..');
-        }else if($('#processing_text').text() == 'PROCESSING..'){
-            $('#processing_text').text('PROCESSING...');
-        }else if($('#processing_text').text() == 'PROCESSING...'){
-            $('#processing_text').text('PROCESSING....');
-        }else if($('#processing_text').text() == 'PROCESSING....'){
-            $('#processing_text').text('PROCESSING.....');
-        }else if($('#processing_text').text() == 'PROCESSING.....'){
-            $('#processing_text').text('PROCESSING.');
+        // if($('#processing_text').text() == 'PROCESSING.'){
+        //     $('#processing_text').text('PROCESSING..');
+        // }else if($('#processing_text').text() == 'PROCESSING..'){
+        //     $('#processing_text').text('PROCESSING...');
+        // }else if($('#processing_text').text() == 'PROCESSING...'){
+        //     $('#processing_text').text('PROCESSING....');
+        // }else if($('#processing_text').text() == 'PROCESSING....'){
+        //     $('#processing_text').text('PROCESSING.....');
+        // }else if($('#processing_text').text() == 'PROCESSING.....'){
+        //     $('#processing_text').text('PROCESSING.');
+        // }
+        if($('#processing_modal').is(':visible')){
+            process_counter += 0.5;
+            $('#processing_text').text('PROCESSING (' + process_counter + 's)');
         }
-      }, 100); 
+      }, 500); 
 
       
 });
