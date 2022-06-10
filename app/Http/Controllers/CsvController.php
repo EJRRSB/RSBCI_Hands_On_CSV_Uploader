@@ -14,13 +14,14 @@ class CsvController extends Controller
     //
     public function __construct()
     {  
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
 
 
 
     public function create_csv()
     {
+ 
         $faker = Faker::create();
         // these are the headers for the csv file. Not required but good to have one incase of system didn't recongize it properly
         $headers = array(

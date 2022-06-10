@@ -142,6 +142,7 @@ $(document).ready(function(){
                             ErrorlogInput(newval);   
                         });  
                     });
+                    exam.ajax.reload(null, false);
                 }
 
             },
@@ -416,6 +417,8 @@ $(document).ready(function(){
 
 
 
+
+    
 
 
  

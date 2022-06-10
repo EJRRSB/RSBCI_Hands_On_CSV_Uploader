@@ -8,8 +8,8 @@
     }
     .id{
         display:none;
-    }
-
+    } 
+    
   
 </style>
 @section('content')
@@ -34,7 +34,7 @@
                             <textarea class="form-control" id="ErrorLog" name ="ErrorLog" rows="7" style="color:red;"></textarea>
                         </div> 
                         <div class="col-md-8 mt-3">  
-                            <button type="submit" class="btn btn-primary" id="BtnSave">Upload</button>  
+                            <button type="submit" class="btn btn-primary" id="BtnSave">Import</button>  
                             <a href="javascript:;" class="btn btn-success" id="BtnClose"> Close</a> 
                         </div> 
                     </form> 
@@ -143,7 +143,8 @@
                         </select>
                     </div>
                     
-                    <table id="sampletable" class="table table-hover table-responsive table-sm" >
+                    <table id="sampletable" class="table align-middle mb-0 bg-white">
+                        
                         <thead>
                             <tr>
                             <th scope="col">ID</th>
@@ -156,8 +157,10 @@
                             <th scope="col">Title</th>
                             </tr>
                         </thead>
+
                         <tbody> 
                         </tbody>
+
                     </table>
                 </div>
             </div>

@@ -116,7 +116,7 @@ class ForbesController extends Controller
     public function store()
     {  
         
-
+        ini_set('max_execution_time', 120);
         if(empty(request()->file('csv_file'))){ // check file if empty
             $this->Json_return(201, 'Csv file is required.');
             die;
@@ -159,9 +159,8 @@ class ForbesController extends Controller
                 }else{  
 
                     $insert = ForbesTop::insert($for_validation); // insert data
-                    if(!$insert){
-                        $this->Json_return(201, 'An error occured. Please try again.');  // return query error
-                        die;
+                    if(!$insert){ 
+                        $errors[] = $validated->errors()->add('line', 'Error inserting to the database.'); // collect errors 
                     }
                 }
             }
@@ -216,8 +215,10 @@ class ForbesController extends Controller
         ]);
 
         if ($validated->fails()) {  
+
             $this->Json_return(202, $validated->errors()); // return validation error
             die;
+
         }else{
 
             $reportData = auth()->user()->forbesTop()->whereBetween('year', [ request()->date_report1,  request()->date_report2])->get();
@@ -236,9 +237,9 @@ class ForbesController extends Controller
 
     public function getMaxData()
     { 
-        
+
         $generatedData = auth()->user()->forbesTop()->get();
-        if(count($generatedData) >= 100000){ $generatedData=100; }else{ $generatedData=count($generatedData); }
+        if(count($generatedData) >= 100000){ $generatedData=100000; }else{ $generatedData=count($generatedData); }
 
         $this->Json_return(200, $generatedData);
            
